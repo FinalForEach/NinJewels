@@ -16,8 +16,8 @@ public class Turret implements Drawable
   static Texture baseimg;
   static Texture pipeimg;
   static Texture bulletimg;
-  ArrayList<Bullet> bullets = new ArrayList();
-  private ArrayList<Bullet> deadbullets = new ArrayList();
+  ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+  private ArrayList<Bullet> deadbullets = new ArrayList<Bullet>();
   double x;
   double y;
   double z;
@@ -63,8 +63,8 @@ public class Turret implements Drawable
     for (Bullet bullet : this.bullets) {
       bullet.draw();
     }
-    LD40Game.getSpriteBatch().draw(pipeimg, (float)(this.x + 16), (float)(this.y - this.z), 0, 16, 32, 32, 1, 1, (float)this.pipeAngle, 0, 0, 32, 32, false, (this.pipeAngle > 90 ? 1 : 0) | (this.pipeAngle < -90 ? 1 : 0));
-    LD40Game.getSpriteBatch().draw(baseimg, (float)this.x, (float)(this.y - this.z), 32, 32);
+    LD40Game.getSpriteBatch().draw(pipeimg, (float)(x+16), (float)(y-z),0,16,32,32,1,1,(float)pipeAngle,0,0,32,32,false,pipeAngle>90|pipeAngle<-90);
+    LD40Game.getSpriteBatch().draw(baseimg, (float)x, (float)(y - z), 32, 32);
   }
   
   public double getZ()
