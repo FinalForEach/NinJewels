@@ -119,7 +119,7 @@ public class LD40Game extends ApplicationAdapter
 		for (int i = 0; i < mines.length; i++)
 		{
 			mines[i] = new Mine();
-			mines[i].x = ((int)((rand.nextFloat() - 0.5D) * 10000) + 100 * (rand.nextBoolean() ? 1 : -1));
+			mines[i].x = ((int)((rand.nextFloat() - 0.5) * 10000) + 100 * (rand.nextBoolean() ? 1 : -1));
 			mines[i].y = 0;
 			mines[i].z = (rand.nextFloat() * 12 + 20);
 		}

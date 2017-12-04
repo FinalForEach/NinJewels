@@ -1,6 +1,7 @@
 package com.finalforeach.ld40game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
@@ -31,7 +32,8 @@ public class Assassin implements Drawable {
 	int health = 10;
 	Rectangle bounds = new Rectangle(0, 0, 32, 32);
 
-	public void load() {
+	public void load() 
+	{
 		jumpsound = Gdx.audio.newSound(Gdx.files.internal("ninja-jump.wav"));
 		hurtsound = Gdx.audio.newSound(Gdx.files.internal("ninja-hurt.wav"));
 		img[0] = new Texture("assassin/assassin-idle1.png");
@@ -41,7 +43,7 @@ public class Assassin implements Drawable {
 		}
 		for (int i = 1; i <= 9; i++) 
 		{
-			img[(i + 7)] = new Texture("assassin/assassin-walk" + i + ".png");
+			img[i + 7] = new Texture("assassin/assassin-walk" + i + ".png");
 		}
 	}
 
@@ -53,7 +55,8 @@ public class Assassin implements Drawable {
 		}
 	}
 
-	public void draw() {
+	public void draw() 
+	{
 		if (getHealth() <= 0) {
 			return;
 		}
@@ -63,11 +66,13 @@ public class Assassin implements Drawable {
 
 	double walkingSpeed = 100;
 
-	public void update(double deltaTime) {
+	public void update(double deltaTime)
+	{
 		if (getHealth() <= 0) {
 			return;
 		}
-		if ((Gdx.input.isKeyPressed(22) | Gdx.input.isKeyPressed(32))) {
+		if ((Gdx.input.isKeyPressed(Keys.RIGHT) | Gdx.input.isKeyPressed(Keys.D))) 
+		{
 			x += deltaTime * walkingSpeed;
 			walkingSpeed = Math.min(walkingSpeed + deltaTime * 10, 1000);
 			isFacingRight = true;
@@ -75,7 +80,8 @@ public class Assassin implements Drawable {
 				isWalking = (isMovingX = true);
 			}
 		}
-		if ((Gdx.input.isKeyPressed(21) | Gdx.input.isKeyPressed(29))) {
+		if ((Gdx.input.isKeyPressed(Keys.LEFT) | Gdx.input.isKeyPressed(Keys.A)))
+		{
 			x -= deltaTime * walkingSpeed;
 			walkingSpeed = Math.min(walkingSpeed + deltaTime * 10, 1000);
 			isFacingRight = false;
@@ -83,29 +89,35 @@ public class Assassin implements Drawable {
 				isWalking = (isMovingX = true);
 			}
 		}
-		if ((Gdx.input.isKeyPressed(19) | Gdx.input.isKeyPressed(51))) {
+		if ((Gdx.input.isKeyPressed(Keys.UP) | Gdx.input.isKeyPressed(Keys.W)))
+		{
 			z -= deltaTime * 100;
 			z = Math.max(-8, z);
 			if (y == 0) {
 				isWalking = true;
 			}
 		}
-		if ((Gdx.input.isKeyPressed(20) | Gdx.input.isKeyPressed(47))) {
+		if ((Gdx.input.isKeyPressed(Keys.DOWN) | Gdx.input.isKeyPressed(Keys.S)))
+		{
 			z += deltaTime * 100;
 			z = Math.min(32, z);
 			if (y == 0) {
 				isWalking = true;
 			}
 		}
-		if ((Gdx.input.isKeyJustPressed(62) & isOnGround())) {
+		if ((Gdx.input.isKeyJustPressed(Keys.SPACE) & isOnGround()))
+		{
 			jumpTimer = 0;
 			jumpPeaked = false;
 			yvel = 500;
 			jumpsound.play();
 		}
-		if (jumpTimer != -1) {
-			if (jumpPeaked) {
-				if (texIndex == 7) {
+		if (jumpTimer != -1) 
+		{
+			if (jumpPeaked) 
+			{
+				if (texIndex == 7) 
+				{
 					jumpTimer -= deltaTime / 20;
 				} else {
 					jumpTimer -= deltaTime;
@@ -113,7 +125,8 @@ public class Assassin implements Drawable {
 			} else {
 				jumpTimer += deltaTime;
 			}
-			if (jumpTimer > maxJumpTimer) {
+			if (jumpTimer > maxJumpTimer)
+			{
 				jumpPeaked = true;
 			}
 			if (jumpTimer < 0) {
@@ -124,17 +137,23 @@ public class Assassin implements Drawable {
 		if (jumpTimer != -1) {
 			texIndex = ((int) Math.floor(jumpTimer / maxJumpTimer * 6) + 1);
 		}
-		if ((isWalking & jumpTimer == -1)) {
-			if (isMovingX) {
+		if ((isWalking & jumpTimer == -1)) 
+		{
+			if (isMovingX) 
+			{
 				stillTime = 0;
-				if (isFacingRight) {
-					if (walkScroll < 0) {
+				if (isFacingRight) 
+				{
+					if (walkScroll < 0)
+					{
 						walkScroll *= (1 - deltaTime);
 					}
 					walkScroll += deltaTime * 10;
 					walkScroll = Math.min(walkScroll, 100);
-				} else {
-					if (walkScroll > 0) {
+				} else 
+				{
+					if (walkScroll > 0) 
+					{
 						walkScroll *= (1 - deltaTime);
 					}
 					walkScroll -= deltaTime * 10;
@@ -153,8 +172,10 @@ public class Assassin implements Drawable {
 				texIndex = 0;
 			}
 		}
-		if (!isMovingX) {
-			if (stillTime > 0.1D) {
+		if (!isMovingX)
+		{
+			if (stillTime > 0.1)
+			{
 				walkingSpeed = 100;
 			}
 			stillTime += deltaTime;
@@ -170,7 +191,8 @@ public class Assassin implements Drawable {
 		hitCooldown -= deltaTime;
 	}
 
-	public boolean isOnGround() {
+	public boolean isOnGround()
+	{
 		return y <= 0;
 	}
 
@@ -192,8 +214,10 @@ public class Assassin implements Drawable {
 		return health;
 	}
 
-	public void hit() {
-		if (hitCooldown <= 0) {
+	public void hit()
+	{
+		if (hitCooldown <= 0)
+		{
 			health -= 1;
 			hitCooldown = 1;
 		}
@@ -201,12 +225,14 @@ public class Assassin implements Drawable {
 		hurtsound.play();
 	}
 
-	public void hitForwards(double xVel) {
+	public void hitForwards(double xVel)
+	{
 		hit();
 		xvel += (xVel > 0 ? 100 + walkingSpeed : -100 - walkingSpeed);
 	}
 
-	public void hitBackwards(double xSrc) {
+	public void hitBackwards(double xSrc)
+	{
 		hit();
 		xvel += (x < xSrc ? -100 - walkingSpeed : 100 + walkingSpeed);
 	}
