@@ -1,12 +1,8 @@
 package com.finalforeach.ld40game;
 
-import com.badlogic.gdx.Audio;
-import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Assassin implements Drawable {
@@ -24,14 +20,14 @@ public class Assassin implements Drawable {
 	boolean isFacingRight = true;
 	double jumpTimer = -1.0;
 	double maxJumpTimer = 0.25;
-	double walkTimer = 0.0;
+	double walkTimer = 0;
 	double maxWalkTimer = 0.5;
 	boolean jumpPeaked = false;
 	boolean isWalking = false;
 	boolean isMovingX = false;
-	double walkScroll = 0.0;
-	double hitCooldown = 0.0;
-	double stillTime = 0.0;
+	double walkScroll = 0;
+	double hitCooldown = 0;
+	double stillTime = 0;
 	int health = 10;
 	Rectangle bounds = new Rectangle(0, 0, 32, 32);
 
@@ -39,16 +35,20 @@ public class Assassin implements Drawable {
 		jumpsound = Gdx.audio.newSound(Gdx.files.internal("ninja-jump.wav"));
 		hurtsound = Gdx.audio.newSound(Gdx.files.internal("ninja-hurt.wav"));
 		img[0] = new Texture("assassin/assassin-idle1.png");
-		for (int i = 1; i <= 7; i++) {
+		for (int i = 1; i <= 7; i++) 
+		{
 			img[i] = new Texture("assassin/assassin-jump" + i + ".png");
 		}
-		for (int i = 1; i <= 9; i++) {
+		for (int i = 1; i <= 9; i++) 
+		{
 			img[(i + 7)] = new Texture("assassin/assassin-walk" + i + ".png");
 		}
 	}
 
-	public void dispose() {
-		for (int i = 0; i < img.length; i++) {
+	public void dispose() 
+	{
+		for (int i = 0; i < img.length; i++) 
+		{
 			img[i].dispose();
 		}
 	}
@@ -174,13 +174,14 @@ public class Assassin implements Drawable {
 		return y <= 0;
 	}
 
-	public void updatePhysics(double deltaTime) {
+	public void updatePhysics(double deltaTime) 
+	{
 		x += xvel * deltaTime;
 		y += yvel * deltaTime;
 		xvel += xaccel * deltaTime;
 		yvel += yaccel * deltaTime;
 		if (!isOnGround()) {
-			yaccel -= 156.8D;
+			yaccel -= LD40Game.METERS_PER_PIXEL*9.8;
 		}
 		if (isOnGround()) {
 			xvel = (y = yvel = yaccel = 0);

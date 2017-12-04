@@ -2,10 +2,6 @@ package com.finalforeach.ld40game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,6 +15,8 @@ import java.util.Random;
 
 public class LD40Game extends ApplicationAdapter
 {
+	public static final double PIXELS_PER_METER = 16;
+	public static final double METERS_PER_PIXEL = 1/PIXELS_PER_METER;
 	static SpriteBatch batch;
 	static OrthographicCamera camera;
 	static Viewport viewport;
@@ -38,11 +36,9 @@ public class LD40Game extends ApplicationAdapter
 	static Turret[] turrets;
 	static Mine[] mines;
 	boolean started = false;
-	private static ArrayList<Explosion> deadexplosions = new ArrayList();
-	static ArrayList<Explosion> explosions = new ArrayList();
-	static ArrayList<Drawable> drawables = new ArrayList();
-	public static final double PIXELS_PER_METER = 16;
-	public static final double METERS_PER_PIXEL = 0.0625D;
+	private static ArrayList<Explosion> deadexplosions = new ArrayList<Explosion>();
+	static ArrayList<Explosion> explosions = new ArrayList<Explosion>();
+	static ArrayList<Drawable> drawables = new ArrayList<Drawable>();
 
 	public static void addNewExplosion(Explosion e)
 	{
@@ -101,18 +97,20 @@ public class LD40Game extends ApplicationAdapter
 		for (int i = 0; i < ninjewels.length; i++)
 		{
 			ninjewels[i] = new NinJewel();
-			ninjewels[i].x = ((int)((rand.nextFloat() - 0.5D) * 10000) + 100 * (rand.nextBoolean() ? 1 : -1));
+			ninjewels[i].x = ((int)((rand.nextFloat() - 0.5) * 10000) + 100 * (rand.nextBoolean() ? 1 : -1));
 			ninjewels[i].y = 100;
 			drawables.add(ninjewels[i]);
 		}
 		for (int i = 0; i < turrets.length; i++)
 		{
 			turrets[i] = new Turret();
-			turrets[i].x = ((int)((rand.nextFloat() - 0.5D) * 10000) + 100 * (rand.nextBoolean() ? 1 : -1));
+			turrets[i].x = ((int)((rand.nextFloat() - 0.5) * 10000) + 100 * (rand.nextBoolean() ? 1 : -1));
 			turrets[i].y = 0;
 			turrets[i].z = (rand.nextFloat() * 12 + 20);
-			for (int j = 0; j < i; j++) {
-				if (Math.abs(turrets[i].x - turrets[j].x) < 100) {
+			for (int j = 0; j < i; j++)
+			{
+				if (Math.abs(turrets[i].x - turrets[j].x) < 100)
+				{
 					i--;
 				}
 			}
@@ -129,7 +127,7 @@ public class LD40Game extends ApplicationAdapter
 
 	public void centerOnScene()
 	{
-		camera.zoom = 0.5F;
+		camera.zoom = 0.5f;
 		camera.translate(0, 100);
 		camera.update();
 		batch.setProjectionMatrix(viewport.getCamera().combined);
@@ -137,7 +135,7 @@ public class LD40Game extends ApplicationAdapter
 
 	public void centerOnAssassin()
 	{
-		camera.zoom = 0.5F;
+		camera.zoom = 0.5f;
 		camera.position.set((float)assassin.x, (float)(assassin.y - assassin.z), 0);
 
 		camera.translate((float)assassin.walkScroll, 0);
@@ -150,16 +148,16 @@ public class LD40Game extends ApplicationAdapter
 	public void render()
 	{
 		double deltaTime = Gdx.graphics.getDeltaTime();
-		Gdx.gl.glClearColor(0.43137255F, 0.30980393F, 0.53333336F, 1);
+		Gdx.gl.glClearColor(0.43137255f, 0.30980393f, 0.53333336f, 1);
 		Gdx.gl.glClear(16384);
 
-		camera.zoom = 0.5F;
+		camera.zoom = 0.5f;
 		camera.update();
 		batch.setProjectionMatrix(viewport.getCamera().combined);
 		Vector3 mouseVec;
 		if (!this.started)
 		{
-			camera.zoom = 0.5F;
+			camera.zoom = 0.5f;
 			camera.position.set((float)assassin.x, (float)(assassin.y - assassin.z), 0);
 			camera.update();
 			batch.setProjectionMatrix(viewport.getCamera().combined);
@@ -172,7 +170,8 @@ public class LD40Game extends ApplicationAdapter
 
 			mouseVec = camera.unproject(mouseVec, viewport.getScreenX(), viewport.getScreenY(), 
 					viewport.getScreenWidth(), viewport.getScreenHeight());
-			if ((startrect.contains(mouseVec.x, mouseVec.y) & Gdx.input.justTouched())) {
+			if ((startrect.contains(mouseVec.x, mouseVec.y) & Gdx.input.justTouched())) 
+			{
 				this.started = true;
 			}
 			batch.begin();
@@ -182,10 +181,12 @@ public class LD40Game extends ApplicationAdapter
 			return;
 		}
 		assassin.update(deltaTime);
-		for (int i = 0; i < ninjewels.length; i++) {
+		for (int i = 0; i < ninjewels.length; i++)
+		{
 			ninjewels[i].update(deltaTime);
 		}
-		for (int i = 0; i < turrets.length; i++) {
+		for (int i = 0; i < turrets.length; i++)
+		{
 			turrets[i].update(deltaTime);
 		}
 		for (Mine m : mines)
